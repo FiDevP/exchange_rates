@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Сервис для работы с валютой</title>
+{% endblock %}
+
+{% block body %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 class="display-4">Курсы валют</h1>
+      <p class="lead">Для получения всех курсов валют за определенный период времени,
+                       необходимо в поле ниже ввести начальную дату интервала и
+                       конечную дату интервала.
+      </p>
+    <div>
+        <form method="post">
+            <input type="date" class="btn-outline-primary" name="start_date">
+            <input type="date" class="btn-outline-primary" name="end_date">
+            <button type="submit" class="btn btn-outline-primary">Отправить</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

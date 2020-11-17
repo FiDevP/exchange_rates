@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Курсы валют за выбранную дату</title>
+{% endblock %}
+
+{% block body %}
+<h1>Результат выборки</h1>
+<h2>Таблица курсов всех валют за выбранный период времени</h2>
+
+    <table class="sort" align="center">
+    <thead>
+            <tr>
+            <td>Дата</td>
+            <td>Имя валюты</td>
+            <td>Код валюты</td>
+            <td>Курс валюты</td>
+            <td>Номинал валюты</td>
+            </tr>
+    </thead>
+    <tbody>
+        {% for currency in currencies %}
+            <tr>
+                <th>{{ currency.date }}</th>
+                <th>{{ currency.cur_name }}</th>
+                <th>{{ currency.cur_code }}</th>
+                <th>{{ currency.cur_course }}</th>
+                <th>{{ currency.cur_nominal }}</th>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+
+{% endblock %}
