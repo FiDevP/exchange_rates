@@ -1,35 +1,13 @@
-from flask import Flask, render_template, redirect, request
-
-from flask_sqlalchemy import SQLAlchemy
+from flask import render_template, redirect, request
+from .app import app
+from .func_date import time_interval
+from .models import Currency
+from .models import db
 from sqlalchemy.exc import DBAPIError
-
-from func_date import time_interval
-
-from datetime import date
 
 from zeep import Client
 
 from lxml import etree as et
-
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://admin:admin@localhost:5432/exchange_data'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
-class Currency(db.Model):
-    __tablename__ = 'currency'
-
-    id = db.Column(db.Integer, primary_key=True)
-    cur_name = db.Column(db.String(80), nullable=False)
-    cur_course = db.Column(db.Numeric, nullable=False)
-    cur_code = db.Column(db.String(80), nullable=False)
-    cur_nominal = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.Date, default=date.today)
-
-    def __str__(self):
-        return self.cur_name
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -42,7 +20,6 @@ def index():
         list_interval = time_interval(start_date, end_date)
         # создаем таблицу
         db.create_all()
-
 
         wsdl = 'http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL'
         client = Client(wsdl=wsdl)  # Инициализируем объект подключения
@@ -89,7 +66,3 @@ def result():
     # все значения из таблицы
     currencies = Currency.query.all()
     return render_template('result.html', currencies=currencies)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
