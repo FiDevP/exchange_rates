@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request
-from .app import app
+from my_app import app
 from .func_date import time_interval
 from .models import Currency
 from .models import db
@@ -61,8 +61,21 @@ def index():
         return render_template('index.html')
 
 
-@app.route('/result', methods=['GET'])
+@app.route('/result', methods=['GET', 'POST'])
 def result():
     # все значения из таблицы
-    currencies = Currency.query.all()
-    return render_template('result.html', currencies=currencies)
+    if request.method == 'POST':
+        code_value = str(request.form['filter_code'])
+
+        name_value = str(request.form['filter_name'])
+
+        if code_value is None:
+            currencies = Currency.query.filter_by(Currency.cur_name.like(f'{name_value}%'))
+
+        else:
+            currencies = Currency.query.filter_by(cur_code=code_value).all()
+        return render_template('result.html', currencies=currencies)
+
+    else:
+        currencies = Currency.query.all()
+        return render_template('result.html', currencies=currencies)

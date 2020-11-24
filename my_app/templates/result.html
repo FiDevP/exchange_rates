@@ -5,27 +5,45 @@
 {% endblock %}
 
 {% block body %}
+    <form method="post" align="right">
+    <button type="submit" class="btn btn-danger">Generate</button>
+    </form>
 <h1>Результат выборки</h1>
-<h2>Таблица курсов всех валют за выбранный период времени</h2>
 
-    <table class="sort" align="center">
-    <thead>
-            <tr>
-            <td>Дата</td>
-            <td>Имя валюты</td>
-            <td>Код валюты</td>
-            <td>Курс валюты</td>
-            <td>Номинал валюты</td>
-            </tr>
+    <table class=" sort table table-sm table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th></th>
+            <th><form method="post">
+                    <input type="text" class="table-hover" name="filter_name">
+                    <button type="submit" class="btn-dark">Выбрать</button>
+                </form></th>
+            <th>
+                <form method="post">
+                    <input type="text" class="table-hover" name="filter_code">
+                    <button type="submit" class="btn-dark">Выбрать</button>
+                </form>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Дата</th>
+            <th>Имя валюты</th>
+            <th>Код валюты</th>
+            <th>Курс валюты</th>
+            <th>Номинал валюты</th>
+        </tr>
     </thead>
     <tbody>
         {% for currency in currencies %}
             <tr>
-                <th>{{ currency.date }}</th>
-                <th>{{ currency.cur_name }}</th>
-                <th>{{ currency.cur_code }}</th>
-                <th>{{ currency.cur_course }}</th>
-                <th>{{ currency.cur_nominal }}</th>
+
+                <td>{{ currency.date }}</td>
+                <td>{{ currency.cur_name }}</td>
+                <td>{{ currency.cur_code }}</td>
+                <td>{{ currency.cur_course }}</td>
+                <td>{{ currency.cur_nominal }}</td>
             </tr>
         {% endfor %}
     </tbody>
